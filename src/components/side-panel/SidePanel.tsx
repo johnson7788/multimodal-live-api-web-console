@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+//SidePanel，实现了一个侧边面板的功能。让我为你解析主要功能：
 import cn from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { RiSidebarFoldLine, RiSidebarUnfoldLine } from "react-icons/ri";
@@ -35,7 +35,9 @@ export default function SidePanel() {
   const loggerRef = useRef<HTMLDivElement>(null);
   const loggerLastHeightRef = useRef<number>(-1);
   const { log, logs } = useLoggerStore();
-
+//open - 控制侧边栏的展开/折叠状态
+// textInput - 管理输入框的文本内容
+// selectedOption - 管理过滤选项的选择状态
   const [textInput, setTextInput] = useState("");
   const [selectedOption, setSelectedOption] = useState<{
     value: string;
@@ -43,7 +45,7 @@ export default function SidePanel() {
   } | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  //scroll the log to the bottom when new logs come in
+  //自动滚动：当新日志出现时，自动滚动到底部
   useEffect(() => {
     if (loggerRef.current) {
       const el = loggerRef.current;

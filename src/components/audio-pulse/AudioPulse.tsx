@@ -19,17 +19,20 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import c from "classnames";
 
-const lineCount = 3;
-
+const lineCount = 3;  // 脉冲线条数量
+//用于显示音频脉冲动画效果
 export type AudioPulseProps = {
-  active: boolean;
-  volume: number;
-  hover?: boolean;
+  active: boolean;    // 控制是否激活
+  volume: number;     // 音量大小
+  hover?: boolean;    // 悬停状态
 };
 
 export default function AudioPulse({ active, volume, hover }: AudioPulseProps) {
-  const lines = useRef<HTMLDivElement[]>([]);
-
+  const lines = useRef<HTMLDivElement[]>([]);  // 存储线条DOM引用
+  // 每100ms更新一次线条高度
+  // 中间线条的高度变化更大（乘以400）
+  // 两侧线条变化较小（乘以60）
+  // 最大高度限制为24px
   useEffect(() => {
     let timeout: number | null = null;
     const update = () => {
@@ -47,7 +50,7 @@ export default function AudioPulse({ active, volume, hover }: AudioPulseProps) {
 
     return () => clearTimeout((timeout as number)!);
   }, [volume]);
-
+  // 创建3个垂直线条，每个线条有不同的动画延迟，使用className条件渲染active和hover状态
   return (
     <div className={c("audioPulse", { active, hover })}>
       {Array(lineCount)

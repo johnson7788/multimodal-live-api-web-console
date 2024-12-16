@@ -33,7 +33,7 @@ export type UseLiveAPIResults = {
   disconnect: () => Promise<void>;
   volume: number;
 };
-
+//该函数是核心实现，用于管理 API 连接、配置、音频流和音量测量。
 export function useLiveAPI({
   url,
   apiKey,

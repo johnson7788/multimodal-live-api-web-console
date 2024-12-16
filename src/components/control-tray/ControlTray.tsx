@@ -24,7 +24,11 @@ import { useWebcam } from "../../hooks/use-webcam";
 import { AudioRecorder } from "../../lib/audio-recorder";
 import AudioPulse from "../audio-pulse/AudioPulse";
 import "./control-tray.scss";
-
+//用于管理媒体流（视频和音频）的网络通信界面。
+// 网络摄像头流媒体
+// 屏幕共享
+// 音频录制和传输
+// 与服务器的实时数据通信
 export type ControlTrayProps = {
   videoRef: RefObject<HTMLVideoElement>;
   children?: ReactNode;
@@ -71,7 +75,9 @@ function ControlTray({
   const [muted, setMuted] = useState(false);
   const renderCanvasRef = useRef<HTMLCanvasElement>(null);
   const connectButtonRef = useRef<HTMLButtonElement>(null);
-
+  // 使用 AudioRecorder 类进行音频录制
+  // 管理音频音量级别
+  // 支持静音功能
   const { client, connected, connect, disconnect, volume } =
     useLiveAPIContext();
 

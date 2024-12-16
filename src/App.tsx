@@ -22,32 +22,39 @@ import { Altair } from "./components/altair/Altair";
 import ControlTray from "./components/control-tray/ControlTray";
 import cn from "classnames";
 
+// 从环境变量中获取 Gemini API 密钥
 const API_KEY = process.env.REACT_APP_GEMINI_API_KEY as string;
 if (typeof API_KEY !== "string") {
   throw new Error("set REACT_APP_GEMINI_APIK_KEY in .env");
 }
 
+// 设置 Gemini API 的 WebSocket 连接地址
 const host = "generativelanguage.googleapis.com";
 const uri = `wss://${host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`;
 
 function App() {
-  // this video reference is used for displaying the active stream, whether that is the webcam or screen capture
-  // feel free to style as you see fit
+  // 创建视频元素的引用，用于显示活动的视频流（网络摄像头或屏幕共享）
   const videoRef = useRef<HTMLVideoElement>(null);
-  // either the screen capture, the video or null, if null we hide it
+  
+  // 状态管理：存储当前的视频流（可以是屏幕共享、摄像头视频或空值）
+  // 如果为空值，则隐藏视频元素
   const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
 
   return (
     <div className="App">
+      {/* LiveAPIProvider 提供实时 API 上下文 */}
       <LiveAPIProvider url={uri} apiKey={API_KEY}>
         <div className="streaming-console">
+          {/* 侧边面板组件 */}
           <SidePanel />
           <main>
             <div className="main-app-area">
-              {/* APP goes here */}
+              {/* Altair 主应用组件 */}
               <Altair />
+              {/* 视频显示区域 */}
               <video
                 className={cn("stream", {
+                  // 当视频引用不存在或没有视频流时隐藏
                   hidden: !videoRef.current || !videoStream,
                 })}
                 ref={videoRef}
@@ -56,12 +63,13 @@ function App() {
               />
             </div>
 
+            {/* 控制面板组件 */}
             <ControlTray
               videoRef={videoRef}
               supportsVideo={true}
               onVideoStreamChange={setVideoStream}
             >
-              {/* put your own buttons here */}
+              {/* 可以在这里添加自定义按钮 */}
             </ControlTray>
           </main>
         </div>
