@@ -10,7 +10,7 @@ export function useWebcam(): UseMediaStreamResult {
     const checkPermission = async () => {
       const cameraPermission = await Camera.requestCameraPermission();
       const micPermission = await Camera.requestMicrophonePermission();
-      return cameraPermission === 'authorized' && micPermission === 'authorized';
+      return cameraPermission === 'granted' && micPermission === 'granted';
     };
     checkPermission();
   }, []);
