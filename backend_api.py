@@ -1,11 +1,15 @@
+import os
 import asyncio
 import json
-
+import dotenv
 import websockets
 from websockets.legacy.protocol import WebSocketCommonProtocol
 from websockets.legacy.server import WebSocketServerProtocol
 from websockets_proxy import Proxy, proxy_connect # 导入 websockets_proxy 库中的 Proxy 和 proxy_connect 函数
 
+dotenv.load_dotenv()
+API_KEY = os.getenv("REACT_APP_GEMINI_API_KEY")
+assert API_KEY, "需要设置环境变量 REACT_APP_GEMINI_API_KEY in .env"
 HOST = "us-central1-aiplatform.googleapis.com"
 SERVICE_URL = f"wss://{HOST}/ws/google.cloud.aiplatform.v1beta1.LlmBidiService/BidiGenerateContent"
 PROXY_URL = "http://127.0.0.1:7890"
@@ -89,6 +93,9 @@ async def handle_client(client_websocket: WebSocketServerProtocol) -> None:
 
     if "bearer_token" in auth_data:
         bearer_token = auth_data["bearer_token"]
+    elif API_KEY is not None:
+        print("Using 环境变量中的 API_KEY for authentication")
+        bearer_token = API_KEY
     else:
         print("Error: Bearer token not found in the first message.")
         await client_websocket.close(code=1008, reason="Bearer token missing")

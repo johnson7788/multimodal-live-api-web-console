@@ -27,10 +27,10 @@ const API_KEY = process.env.REACT_APP_GEMINI_API_KEY as string;
 if (typeof API_KEY !== "string") {
   throw new Error("set REACT_APP_GEMINI_APIK_KEY in .env");
 }
-
-// 设置 Gemini API 的 WebSocket 连接地址
-const host = "generativelanguage.googleapis.com";
-const uri = `wss://${host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`;
+const uri = process.env.REACT_APP_GEMINI_URI as string;
+if (!uri) {
+  throw new Error("需要设置环境变量 REACT_APP_GEMINI_URI in .env");
+}
 
 function App() {
   // 创建视频元素的引用，用于显示活动的视频流（网络摄像头或屏幕共享）
