@@ -1,5 +1,5 @@
 import { createContext, FC, ReactNode, useContext } from "react";
-import { useLiveAPI, UseLiveAPIResults } from "../hooks/use-live-api";
+import { useLiveApi, UseLiveAPIResults } from "../hooks/use-live-api";
 
 // 创建 LiveAPI 上下文
 const LiveAPIContext = createContext<UseLiveAPIResults | undefined>(undefined);
@@ -17,7 +17,7 @@ export const LiveAPIProvider: FC<LiveAPIProviderProps> = ({
   apiKey,
   children,
 }) => {
-  const liveAPI = useLiveAPI({ url, apiKey });
+  const liveAPI = useLiveApi({ url, apiKey });
 
   return (
     <LiveAPIContext.Provider value={liveAPI}>

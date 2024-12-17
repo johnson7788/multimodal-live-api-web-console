@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, StyleSheet } from 'react-native';
+import { SafeAreaView, View, StyleSheet, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { LiveAPIProvider } from './contexts/LiveAPIContext';
 import SidePanel from './components/side-panel/SidePanel';
@@ -19,6 +19,10 @@ function Main(): React.JSX.Element {
       <LiveAPIProvider url={uri} apiKey={API_KEY}>
         <SafeAreaView style={styles.container}>
           <View style={styles.streamingConsole}>
+            {/* 添加一些测试文本来确认渲染 */}
+            <View style={styles.testContent}>
+              <Text style={styles.testText}>测试内容</Text>
+            </View>
             <SidePanel />
             <View style={styles.mainContent}>
               <View style={styles.mainAppArea}>
@@ -43,6 +47,13 @@ function Main(): React.JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  testContent: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  testText: {
+    color: '#fff',
+  },
   container: {
     flex: 1,
     backgroundColor: '#000',
