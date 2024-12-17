@@ -2,14 +2,15 @@ import React from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 
 interface AudioPulseProps {
-  isActive?: boolean;
+  volume: number;
+  active: boolean;
 }
 
-export const AudioPulse: React.FC<AudioPulseProps> = ({ isActive = false }) => {
+export const AudioPulse: React.FC<AudioPulseProps> = ({ volume, active }) => {
   const pulseAnim = new Animated.Value(1);
 
   React.useEffect(() => {
-    if (isActive) {
+    if (active) {
       Animated.loop(
         Animated.sequence([
           Animated.timing(pulseAnim, {
@@ -25,7 +26,7 @@ export const AudioPulse: React.FC<AudioPulseProps> = ({ isActive = false }) => {
         ])
       ).start();
     }
-  }, [isActive]);
+  }, [active]);
 
   return (
     <View style={styles.container}>
@@ -34,7 +35,7 @@ export const AudioPulse: React.FC<AudioPulseProps> = ({ isActive = false }) => {
           styles.pulse,
           {
             transform: [{ scale: pulseAnim }],
-            opacity: isActive ? 1 : 0.5,
+            opacity: active ? 1 : 0.5,
           },
         ]}
       />

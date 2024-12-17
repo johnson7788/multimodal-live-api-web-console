@@ -123,15 +123,15 @@ const ControlTray: React.FC<ControlTrayProps> = ({
               isStreaming={screenCapture.isStreaming}
               start={changeStreams(screenCapture)}
               stop={changeStreams()}
-              onIcon="cancel_presentation"
-              offIcon="present_to_all"
+              onIcon="stop"
+              offIcon="screen-share"
               disabled={!connected}
             />
             <MediaStreamButton
               isStreaming={webcam.isStreaming}
               start={changeStreams(webcam)}
               stop={changeStreams()}
-              onIcon="videocam_off"
+              onIcon="videocam-off"
               offIcon="videocam"
               disabled={!connected}
             />
@@ -150,7 +150,7 @@ const ControlTray: React.FC<ControlTrayProps> = ({
             onPress={connected ? disconnect : connect}
           >
             <Icon
-              name={connected ? 'pause' : 'play_arrow'}
+              name={connected ? 'pause' : 'play-arrow'}
               size={24}
               color={connected ? '#2962FF' : '#FFFFFF'}
             />
