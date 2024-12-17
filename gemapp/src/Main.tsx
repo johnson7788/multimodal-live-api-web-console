@@ -19,11 +19,6 @@ function Main(): React.JSX.Element {
       <LiveAPIProvider url={uri} apiKey={API_KEY}>
         <SafeAreaView style={styles.container}>
           <View style={styles.streamingConsole}>
-            {/* 添加一些测试文本来确认渲染 */}
-            <View style={styles.testContent}>
-              <Text style={styles.testText}>测试内容</Text>
-            </View>
-            <SidePanel />
             <View style={styles.mainContent}>
               <View style={styles.mainAppArea}>
                 <Altair />
@@ -39,6 +34,7 @@ function Main(): React.JSX.Element {
                 onVideoStreamChange={setVideoStream}
               />
             </View>
+            <SidePanel />
           </View>
         </SafeAreaView>
       </LiveAPIProvider>
@@ -60,10 +56,10 @@ const styles = StyleSheet.create({
   },
   streamingConsole: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   mainContent: {
-    flex: 1,
+    flex: 0.7,
   },
   mainAppArea: {
     flex: 1,

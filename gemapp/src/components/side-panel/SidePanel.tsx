@@ -53,7 +53,7 @@ export default function SidePanel() {
   return (
     <View style={[styles.sidePanel, open && styles.sidePanelOpen]}>
       <View style={styles.header}>
-        {open && <Text style={styles.headerTitle}>Console</Text>}
+        {open && <Text style={styles.headerTitle}>控制台</Text>}
         <TouchableOpacity
           style={styles.openerButton}
           onPress={() => setOpen(!open)}
@@ -133,13 +133,13 @@ const styles = StyleSheet.create({
   sidePanel: {
     backgroundColor: '#1A1D1E',
     width: 40,
-    height: '100%',
+    flex: 0.3,
     flexDirection: 'column',
-    borderRightWidth: 1,
-    borderRightColor: '#404547',
+    borderTopWidth: 1,
+    borderTopColor: '#404547',
   },
   sidePanelOpen: {
-    width: 400,
+    width: '100%',
   },
   header: {
     flexDirection: 'row',
