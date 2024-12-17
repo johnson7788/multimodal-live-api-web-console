@@ -12,7 +12,7 @@ import { UseMediaStreamResult } from "../../hooks/use-media-stream-mux";
 import { useScreenCapture } from "../../hooks/use-screen-capture";
 import { useWebcam } from "../../hooks/use-webcam";
 import { AudioRecorder } from "../../lib/audio-recorder";
-import AudioPulse from "../audio-pulse/AudioPulse";
+import { AudioPulse } from "../audio-pulse/AudioPulse";
 
 interface ControlTrayProps {
   supportsVideo?: boolean;

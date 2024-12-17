@@ -84,7 +84,11 @@ export default function SidePanel() {
             </Picker>
           </View>
         )}
-        <View style={[styles.streamingIndicator, connected && styles.connected]}>
+        <View style={[
+          styles.streamingIndicator, 
+          connected && styles.connected,
+          { minWidth: open ? 136 : 30 }
+        ]}>
           <Text style={styles.streamingText}>
             {connected ? `🔵${open ? " Streaming" : ""}` : `⏸️${open ? " Paused" : ""}`}
           </Text>
@@ -183,7 +187,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 30,
-    minWidth: open ? 136 : 30,
   },
   connected: {
     borderColor: '#0D9C53',
