@@ -7,16 +7,11 @@ import { Altair } from './components/altair/Altair';
 import ControlTray from './components/control-tray/ControlTray';
 import { RTCView } from 'react-native-webrtc';
 
-// 从环境变量获取 Gemini API 密钥
-// 注意：React Native 需要使用不同的环境变量配置方式
 const API_KEY = ''; // TODO: 使用 react-native-config 来管理环境变量
-
-// 设置 Gemini API 的 WebSocket 连接地址
 const host = 'generativelanguage.googleapis.com';
 const uri = `wss://${host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`;
 
-function App() {
-  // 在 React Native 中管理视频流状态
+function Main(): React.JSX.Element {
   const [videoStream, setVideoStream] = useState<any>(null);
 
   return (
@@ -30,15 +25,11 @@ function App() {
                 <Altair />
                 {videoStream && (
                   <RTCView
-                    style={[
-                      styles.stream,
-                      !videoStream && styles.hidden
-                    ]}
+                    style={[styles.stream, !videoStream && styles.hidden]}
                     streamURL={videoStream?.toURL()}
                   />
                 )}
               </View>
-
               <ControlTray
                 supportsVideo={true}
                 onVideoStreamChange={setVideoStream}
@@ -79,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App; 
+export default Main; 

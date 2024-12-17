@@ -3,7 +3,7 @@ import React, { useEffect, useState, memo } from "react";
 import { View, StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 import { useLiveAPIContext } from "../../contexts/LiveAPIContext";
-import { ToolCall } from "../../multimodal-live-types";
+import { ToolCall } from "../multimodal-live-types";
 
 const declaration: FunctionDeclaration = {
   name: "render_altair",
