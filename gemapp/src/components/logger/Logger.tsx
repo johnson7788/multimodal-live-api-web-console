@@ -18,7 +18,7 @@ import {
   ToolCallCancellationMessage,
   ToolCallMessage,
   ToolResponseMessage,
-} from "../../multimodal-live-types";
+} from "../multimodal-live-types";
 
 const formatTime = (d: Date) => d.toLocaleTimeString().slice(0, -3);
 
