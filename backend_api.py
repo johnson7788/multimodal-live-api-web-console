@@ -9,12 +9,14 @@ from websockets_proxy import Proxy, proxy_connect # 导入 websockets_proxy 库�
 
 dotenv.load_dotenv()
 API_KEY = os.getenv("REACT_APP_GEMINI_API_KEY")
+print("API_KEY: ", API_KEY)
 assert API_KEY, "需要设置环境变量 REACT_APP_GEMINI_API_KEY in .env"
-HOST = "us-central1-aiplatform.googleapis.com"
-SERVICE_URL = f"wss://{HOST}/ws/google.cloud.aiplatform.v1beta1.LlmBidiService/BidiGenerateContent"
+SERVICE_URL = f"wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent"
+SERVICE_URL += f"?key={API_KEY}"
 PROXY_URL = "http://127.0.0.1:7890"
+# PROXY_URL = ""
 
-DEBUG = False
+DEBUG = True
 
 # WebSocket 代理服务器的实现，主要用于在客户端和 Google Cloud AI Platform 之间转发消息。
 async def proxy_task(
@@ -53,11 +55,12 @@ async def create_proxy(
 
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {bearer_token}",
+        # "Authorization": f"Bearer {bearer_token}",
     }
     if PROXY_URL:
+        print("Using proxy: ", PROXY_URL)
         proxy = Proxy.from_url(PROXY_URL)
-        async with proxy_connect(SERVICE_URL, additional_headers=headers, proxy=proxy) as server_websocket:
+        async with proxy_connect(SERVICE_URL, extra_headers=headers, proxy=proxy) as server_websocket:
             client_to_server_task = asyncio.create_task(
                 proxy_task(client_websocket, server_websocket)
             )
@@ -67,7 +70,7 @@ async def create_proxy(
             await asyncio.gather(client_to_server_task, server_to_client_task)
     else:
         async with websockets.connect(
-            SERVICE_URL, additional_headers=headers
+            SERVICE_URL, extra_headers=headers
         ) as server_websocket:
             client_to_server_task = asyncio.create_task(
                 proxy_task(client_websocket, server_websocket)
