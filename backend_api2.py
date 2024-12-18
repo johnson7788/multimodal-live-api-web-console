@@ -195,12 +195,12 @@ class ServerManager:
                     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 
                 }
-
+                gemini_url = self.SERVICE_URL + "?key=" + key
                 # 双向数据流的传输是一直连接
                 if self.use_proxy:
                     logger.info("使用代理连接 WebSocket")
                     proxy = Proxy.from_url(self.PROXY_URL)
-                    async with proxy_connect(self.SERVICE_URL, extra_headers=headers, proxy=proxy) as gemini_ws:
+                    async with proxy_connect(gemini_url, extra_headers=headers, proxy=proxy) as gemini_ws:
                         print("Connected to Gemini WebSocket With Proxy.")
                         # 初始化chikka和director
                         await self.send_session_update(gemini_ws,voice)  # 更新session
@@ -212,7 +212,7 @@ class ServerManager:
                         )
                 else:
                     logger.info("直接连接 WebSocket")
-                    async with websockets.connect(self.SERVICE_URL, extra_headers=headers) as gemini_ws:
+                    async with websockets.connect(gemini_url, extra_headers=headers) as gemini_ws:
                         # 初始化chikka和director
                         await self.send_session_update(gemini_ws,voice)  # 更新session
                         # 处理连接建立
