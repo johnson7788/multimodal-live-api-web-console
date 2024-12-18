@@ -199,7 +199,7 @@ class ServerManager:
                 # 双向数据流的传输是一直连接
                 if self.use_proxy:
                     logger.info("使用代理连接 WebSocket")
-                    proxy = Proxy.from_url(self.proxy_url)
+                    proxy = Proxy.from_url(self.PROXY_URL)
                     async with proxy_connect(self.SERVICE_URL, extra_headers=headers, proxy=proxy) as gemini_ws:
                         print("Connected to Gemini WebSocket With Proxy.")
                         # 初始化chikka和director
