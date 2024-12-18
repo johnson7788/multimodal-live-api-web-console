@@ -99,14 +99,17 @@ class ServerManager:
         try:
             while True:
                 data = await gemini_ws.recv()
-                logging.info(f"send_to_webclient: {data}")
-                try:
+                if isinstance(data, bytes):
+                    # 如果是 bytes，先解码成字符串
+                    text_data = data.decode('utf-8')
+                    logging.info(f"send_to_webclient decoded text: {text_data}")
+                    await websocket.send_text(text_data)  # 发送文本
+                else:
+                    # 如果本来就是字符串，直接发送
+                    logging.info(f"send_to_webclient text: {data}")
                     await websocket.send_text(data)
-                except WebSocketDisconnect:
-                    print("WebSocket disconnected while sending to client.")
-                    break
         except Exception as e:
-            print(f"用户可能断开了Error in send_to_webclient: {e}")
+            logging.error(f"用户可能断开了Error in send_to_webclient: {e}", exc_info=True)
 
     async def send_session_update(self, gemini_ws: WebSocketClientProtocol, voice:str="Aoede") -> None:
         """Send the session update to the Gemini WebSocket.
@@ -167,7 +170,7 @@ class ServerManager:
         @self.app.websocket("/ws/gemini")
         async def gemini_stream_endpoint(websocket: WebSocket, key: str|None = None, voice: str = "Aoede"):
             """
-            完全透明的websocket用于兼容gemini
+            完全透明的websocket用��兼容gemini
             ws://yourdomain/ws/gemini
             voice: 传入的输入是类似这样的，需要从？后面去掉:
             """
@@ -186,14 +189,7 @@ class ServerManager:
                 # 修改voice的值
                 voice = voice.split("?")[0]
                 headers = {
-                    "Accept-Encoding": "gzip, deflate, br, zstd",
-                    "Sec-WebSocket-Key": "rAuNRZSSMTrjkaNnYqikXg==",
-                    "Sec-WebSocket-Version": "13",
-                    "Sec-WebSocket-Extensions": "permessage-deflate; client_max_window_bits",
-                    "Connection": "Upgrade",
-                    "Upgrade": "websocket",
-                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-
+                    "Content-Type": "application/json",
                 }
                 gemini_url = self.SERVICE_URL + "?key=" + key
                 # 双向数据流的传输是一直连接
@@ -205,7 +201,6 @@ class ServerManager:
                         # 初始化chikka和director
                         await self.send_session_update(gemini_ws,voice)  # 更新session
                         # 处理连接建立
-                        await self.handle_websocket_connect(websocket, connection_id)
                         await asyncio.gather(
                             self.send_to_server(websocket, gemini_ws),
                             self.send_to_webclient(websocket, gemini_ws)
@@ -216,7 +211,6 @@ class ServerManager:
                         # 初始化chikka和director
                         await self.send_session_update(gemini_ws,voice)  # 更新session
                         # 处理连接建立
-                        await self.handle_websocket_connect(websocket, connection_id)
                         await asyncio.gather(
                             self.send_to_server(websocket, gemini_ws),
                             self.send_to_webclient(websocket, gemini_ws)
