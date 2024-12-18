@@ -58,11 +58,6 @@ export default function SidePanel() {
           style={styles.openerButton}
           onPress={() => setOpen(!open)}
         >
-          <Icon
-            name={open ? "chevron-left" : "chevron-right"}
-            size={24}
-            color="#b4b8bb"
-          />
         </TouchableOpacity>
       </View>
 
