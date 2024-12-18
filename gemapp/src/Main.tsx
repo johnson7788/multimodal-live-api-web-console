@@ -8,8 +8,7 @@ import ControlTray from './components/control-tray/ControlTray';
 import { RTCView } from 'react-native-webrtc';
 
 const API_KEY = ''; // TODO: 使用 react-native-config 来管理环境变量
-const host = 'generativelanguage.googleapis.com';
-const uri = `wss://${host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`;
+const uri = `wss://127.0.0.1:8080`;
 
 function Main(): React.JSX.Element {
   const [videoStream, setVideoStream] = useState<any>(null);
