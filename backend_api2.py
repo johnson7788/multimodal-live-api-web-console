@@ -12,7 +12,7 @@ load_dotenv()
 log_path = os.path.join(os.path.dirname(__file__), "logs")
 if not os.path.exists(log_path):
     os.makedirs(log_path)
-logfile = os.path.join(log_path, f"voice_interview_{os.environ['SERVER_PORT']}.log")
+logfile = os.path.join(log_path, f"backend.log")
 # 日志的格式
 # 配置 logging
 logging.basicConfig(
@@ -257,7 +257,7 @@ class ServerManager:
     def run(self, host: str = "0.0.0.0", port: int = 8080):
         uvicorn.run(self.app, host=host, port=port)
 
-server = ServerManager(manager)
+server = ServerManager()
 # 用于uvicorn启动
 app = server.app
 
