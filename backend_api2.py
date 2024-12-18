@@ -3,7 +3,7 @@
 # @Date  : 2024/11/13 09:28
 # @File  : Gemini relay
 # @Author: 
-# @Desc  :
+# @Desc  : 不可用
 import os
 import logging
 from dotenv import load_dotenv
@@ -80,14 +80,14 @@ class ServerManager:
         """
         try:
             while True:
-                data = await websocket.receive_text()
+                data = await websocket.receive_bytes()
                 # 解码成json, 判断是否时更新session的instructions，如果是，不能放过
-                try:
-                    json_data = json.loads(data)
-                    logging.info(f"Received 客户端数据: {json_data}")
-                except Exception as e:
-                    print(f"Error decoding JSON: {e}")
-                logging.info(f"send_to_gemini: {data}")
+                # try:
+                #     json_data = json.loads(data)
+                #     logging.info(f"Received 客户端数据: {json_data}")
+                # except Exception as e:
+                #     print(f"Error decoding JSON: {e}")
+                # logging.info(f"send_to_gemini: {data}")
                 await gemini_ws.send(data)
         except WebSocketDisconnect:
             print("error send_to_gemini.")
@@ -99,15 +99,16 @@ class ServerManager:
         try:
             while True:
                 data = await gemini_ws.recv()
-                if isinstance(data, bytes):
-                    # 如果是 bytes，先解码成字符串
-                    text_data = data.decode('utf-8')
-                    logging.info(f"send_to_webclient decoded text: {text_data}")
-                    await websocket.send_text(text_data)  # 发送文本
-                else:
-                    # 如果本来就是字符串，直接发送
-                    logging.info(f"send_to_webclient text: {data}")
-                    await websocket.send_text(data)
+                await websocket.send_text(data)
+                # if isinstance(data, bytes):
+                #     # 如果是 bytes，先解码成字符串
+                #     text_data = data.decode('utf-8')
+                #     logging.info(f"send_to_webclient decoded text: {text_data}")
+                #     await websocket.send_text(text_data)  # 发送文本
+                # else:
+                #     # 如果本来就是字符串，直接发送
+                #     logging.info(f"send_to_webclient text: {data}")
+                #     await websocket.send_text(data)
         except Exception as e:
             logging.error(f"用户可能断开了Error in send_to_webclient: {e}", exc_info=True)
 
