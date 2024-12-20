@@ -7,8 +7,8 @@ import { Altair } from './components/altair/Altair';
 import ControlTray from './components/control-tray/ControlTray';
 import { RTCView } from 'react-native-webrtc';
 
-const API_KEY = ''; // TODO: 使用 react-native-config 来管理环境变量
-const uri = `wss://127.0.0.1:8080`;
+const API_KEY = 'test'; 
+const uri = `wss://192.168.50.111:8080`;
 
 function Main(): React.JSX.Element {
   const [videoStream, setVideoStream] = useState<any>(null);

@@ -150,7 +150,7 @@ const ControlTray: React.FC<ControlTrayProps> = ({
             onPress={connected ? disconnect : connect}
           >
             <Icon
-              name={connected ? 'pause' : 'play-arrow'}
+              name={connected ? 'stop_circle' : 'play_circle_filled'}
               size={24}
               color={connected ? '#2962FF' : '#FFFFFF'}
             />
