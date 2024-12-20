@@ -46,7 +46,7 @@ function App() {
       <LiveAPIProvider url={uri} apiKey={API_KEY}>
         <div className="streaming-console">
           {/* 侧边面板组件 */}
-          <SidePanel />
+          {/* <SidePanel /> */}
           <main>
             <div className="main-app-area">
               {/* Altair 主应用组件 */}

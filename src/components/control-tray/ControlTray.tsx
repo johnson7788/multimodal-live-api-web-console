@@ -22,7 +22,7 @@ import { UseMediaStreamResult } from "../../hooks/use-media-stream-mux";
 import { useScreenCapture } from "../../hooks/use-screen-capture";
 import { useWebcam } from "../../hooks/use-webcam";
 import { AudioRecorder } from "../../lib/audio-recorder";
-import AudioPulse from "../audio-pulse/AudioPulse";
+import AudioPulse from "../audio-pulse/AudioPulse"; //音频脉冲组件,用于显示音频音量
 import "./control-tray.scss";
 //用于管理媒体流（视频和音频）的网络通信界面。
 // 网络摄像头流媒体
@@ -94,6 +94,7 @@ function ControlTray({
   }, [inVolume]);
 
   useEffect(() => {
+    //函数会在录制到音频数据时被调用，它会将音频数据以实时输入的形式发送到 LiveAPI
     const onData = (base64: string) => {
       client.sendRealtimeInput([
         {
@@ -177,9 +178,11 @@ function ControlTray({
           )}
         </button>
 
+        {/* 音频脉冲组件，用于显示音频音量 */}
+{/* 
         <div className="action-button no-action outlined">
           <AudioPulse volume={volume} active={connected} hover={false} />
-        </div>
+        </div> */}
 
         {supportsVideo && (
           <>
